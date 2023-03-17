@@ -1,24 +1,11 @@
-import { getData } from './js/Events';
-import { displayMap, map } from './js/Leaflet';
-import { handleSidebar } from './js/Sidebar';
-
-new (class App {
-  #container = document.querySelector('ul.businesses');
+class OldApp {
+  #container = '';
   places = [];
   isLoading = true;
   #pageQuery = 0;
-  reduceMotion = false;
   selectedBusiness = {};
-  filters = [];
 
   constructor() {
-    displayMap();
-    handleSidebar();
-    const toggle = document.querySelector('.switch input');
-    toggle.addEventListener(
-      'change',
-      () => (this.reduceMotion = toggle.checked)
-    );
     this.#pageQuery = 1;
     this.#getThePlaces().then(() => {
       this.#toggleLoadingMessage();
@@ -204,4 +191,4 @@ new (class App {
       })
       .catch(err => console.error(err));
   }
-})();
+}
