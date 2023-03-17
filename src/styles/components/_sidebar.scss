@@ -1,0 +1,43 @@
+@use '../abstracts' as v;
+@forward './business-listings';
+@forward './toggle';
+@forward './filters';
+
+.sidebar {
+  flex-basis: 50rem;
+  background-color: v.$color-dark--1;
+  padding: 3rem 5rem 4rem 5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  align-self: center;
+  margin-bottom: 4rem;
+  img {
+    $size: 10rem;
+    height: $size;
+    width: $size;
+  }
+}
+
+#loading {
+  background-color: lightgrey;
+  padding: 2rem;
+  visibility: hidden;
+  color: black;
+  &.show {
+    visibility: visible;
+  }
+}
+
+.motion-toggle {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+
+  .switch {
+    margin-left: 1rem;
+  }
+}

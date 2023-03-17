@@ -1,0 +1,30 @@
+@use './abstracts' as v;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fff;
+  color: v.$color-light--2;
+  display: flex;
+  font-size: 1.6rem;
+  font-weight: 400;
+  font-family: 'Manrope', sans-serif;
+  // height: 600px;
+  line-height: 1.6;
+  overscroll-behavior-y: none;
+  // padding: 2.5rem;
+}
+
+/* GENERAL */
+a:link,
+a:visited {
+  color: v.$color-brand--1;
+}
