@@ -1,12 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const filters = [
   {
-    name: 'all',
-    displayName: 'Show All',
-  },
-  {
-    name: 'beauty',
+    name: 'beauty/health',
     displayName: 'Beauty/Health',
   },
   {
@@ -14,7 +10,7 @@ const filters = [
     displayName: 'Construction',
   },
   {
-    name: 'food',
+    name: 'eat &amp; drink',
     displayName: 'Eat & Drink',
   },
   {
@@ -59,18 +55,31 @@ function Filter({ name, displayName, checked, onChange }) {
     </div>
   );
 }
-export function SearchFilters({ handleFilterChange, selectedFilters }) {
-  const [showFilters, setShowFilters] = useState(true);
+
+export function SearchFilters({
+  handleFilterChange,
+  selectedFilters,
+  setSelectedFilters,
+}) {
+  const [showFilters, setShowFilters] = useState(false);
 
   return (
     <aside className="filters">
       <header className="filters__header">
         <h2>Filter Options</h2>
+        {selectedFilters.length > 0 && (
+          <span
+            className="hide-filters--alt"
+            onClick={() => setSelectedFilters([])}
+          >
+            Reset Filters
+          </span>
+        )}
         <span
-          className="hide-filters"
+          className={showFilters ? 'hide-filters' : 'hide-filters--alt'}
           onClick={() => setShowFilters(!showFilters)}
         >
-          {showFilters ? 'Hide Options' : 'Show Options'}
+          {showFilters ? 'Hide Filters' : 'Show Filters'}
         </span>
       </header>
       <div className="filters__container">

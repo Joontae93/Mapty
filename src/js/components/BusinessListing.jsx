@@ -1,14 +1,24 @@
+import { useState, useEffect } from 'react';
 export function BusinessListings({ businessListings, selectedFilters }) {
-  const listings = businessListings;
-
-  /** DOING: if listings in selectedFilters....
-   * blah blah blah
-   * return filteredlistings
-   */
+  const [listings, setListings] = useState(businessListings);
+  function filterListings() {
+    if (0 === selectedFilters.length) {
+      setListings(businessListings);
+    } else {
+      const filteredListings = businessListings.filter(listing =>
+        selectedFilters.some(filter => listing.terms.has(filter))
+      );
+      setListings(filteredListings);
+    }
+  }
+  useEffect(() => {
+    filterListings();
+  }, [businessListings, selectedFilters]);
   return (
     <ul className="businesses">
       {listings.map(listing => {
         const content = listing.content.slice(0, 141) + '...';
+
         return (
           <li
             className={
@@ -19,11 +29,17 @@ export function BusinessListings({ businessListings, selectedFilters }) {
             data-id={listing.id}
             key={listing.id}
           >
-            <h3 className="business__title">{listing.title}</h3>
+            <h3
+              className="business__title"
+              dangerouslySetInnerHTML={{ __html: listing.title }}
+            />
             {listing.acf.address && (
-              <span class="business__meta">{listing.acf.address}</span>
+              <span className="business__meta">{listing.acf.address}</span>
             )}
-            <div className="business__details">{content}</div>
+            <div
+              className="business__details"
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
             {listing.acf.remote === false ? (
               ''
             ) : (

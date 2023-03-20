@@ -173,6 +173,7 @@ input:checked + .slider:before {
   border-bottom: 1px solid #fff;
   justify-content: space-between;
   align-items: baseline;
+  padding-bottom: 1rem;
   display: flex;
 }
 
@@ -186,15 +187,22 @@ input:checked + .slider:before {
   display: none;
 }
 
-.hide-filters {
+.hide-filters--alt, .hide-filters {
+  cursor: pointer;
+  border: 1px solid #d3d3d3;
   padding: 1rem;
-  transition: all .3s;
+  transition: all .2s;
 }
 
-.hide-filters:hover {
+.hide-filters:hover, .hide-filters--alt {
   color: #000;
-  cursor: pointer;
   background-color: #d3d3d3;
+}
+
+.hide-filters--alt:hover {
+  color: #d3d3d3;
+  background-color: #0000;
+  border-color: #d3d3d3;
 }
 
 .filter {

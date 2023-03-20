@@ -2930,8 +2930,27 @@ var _react = require("react");
 var _utilities = require("./js/components/Utilities");
 var _leaflet = require("./js/Presentational/Leaflet");
 var _sidebar = require("./js/Presentational/Sidebar");
-var _businessListing = require("./js/components/BusinessListing");
 var _s = $RefreshSig$();
+async function getThePlaces(pageQuery) {
+    const businessURL = "https://choctawsmallbusiness.com/wp-json/wp/v2/places";
+    const params = {
+        fields: "title,content,id,acf,_links&_embed=wp:term",
+        order: "asc",
+        orderby: "title",
+        perPage: "10",
+        page: pageQuery
+    };
+    const parameters = `?_fields=${params.fields}&order=${params.order}&orderby=${params.orderby}&per_page=${params.perPage}&page=${params.page}`;
+    try {
+        const response = await (0, _utilities.getData)(businessURL, parameters);
+        if (response.length === 0) {
+            alert("No places to display!");
+            return;
+        } else return response;
+    } catch (err) {
+        console.error(err);
+    }
+}
 function App() {
     _s();
     const [reduceMotion, setReduceMotion] = (0, _react.useState)(false);
@@ -2939,46 +2958,25 @@ function App() {
     const [businessListings, setBusinessListings] = (0, _react.useState)([]);
     const [pageQuery, setPageQuery] = (0, _react.useState)(1);
     (0, _react.useEffect)(()=>{
-        const getThePlaces = async ()=>{
-            const businessURL = "https://choctawsmallbusiness.com/wp-json/wp/v2/places";
-            const params = {
-                fields: "title,content,id,acf,_links&_embed=wp:term",
-                order: "asc",
-                orderby: "title",
-                perPage: "10",
-                page: pageQuery
-            };
-            const parameters = `?_fields=${params.fields}&order=${params.order}&orderby=${params.orderby}&per_page=${params.perPage}&page=${params.page}`;
-            try {
-                const response = await (0, _utilities.getData)(businessURL, parameters);
-                if (response.length === 0) {
-                    alert("No places to display!");
-                    return;
-                }
-                setBusinessListings(response.map((place)=>{
-                    const embedded = place._embedded;
-                    const embeddedList = Object.values(embedded);
-                    const termsList = embeddedList[0][0];
-                    const terms = termsList.map((term)=>{
-                        return {
-                            id: term.id,
-                            name: term.name
-                        };
-                    });
-                    return {
-                        title: place.title.rendered,
-                        content: place.content.rendered,
-                        terms: terms,
-                        acf: place.acf,
-                        id: place.id
-                    };
-                }));
-                setIsLoading(false);
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        getThePlaces().then(()=>console.log(businessListings));
+        getThePlaces(pageQuery).then((response)=>{
+            setBusinessListings(response.map((place)=>{
+                const embedded = place._embedded;
+                const embeddedList = Object.values(embedded);
+                const termsList = embeddedList[0][0];
+                const termsArray = termsList.map((term)=>{
+                    return term.name.toLowerCase();
+                });
+                const terms = new Set(termsArray);
+                return {
+                    title: place.title.rendered,
+                    content: place.content.rendered,
+                    terms: terms,
+                    acf: place.acf,
+                    id: place.id
+                };
+            }));
+            setIsLoading(false);
+        }).catch((error)=>console.error(error));
     }, []);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
@@ -2989,12 +2987,12 @@ function App() {
                 businessListings: businessListings
             }, void 0, false, {
                 fileName: "src/App.jsx",
-                lineNumber: 57,
+                lineNumber: 59,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _leaflet.Map), {}, void 0, false, {
                 fileName: "src/App.jsx",
-                lineNumber: 63,
+                lineNumber: 65,
                 columnNumber: 7
             }, this)
         ]
@@ -3005,7 +3003,7 @@ _c = App;
 const root = (0, _client.createRoot)(document.getElementById("app"));
 root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(App, {}, void 0, false, {
     fileName: "src/App.jsx",
-    lineNumber: 68,
+    lineNumber: 70,
     columnNumber: 13
 }, undefined));
 var _c;
@@ -3016,7 +3014,7 @@ $RefreshReg$(_c, "App");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react-dom/client":"lOjBx","react":"21dqq","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","./js/components/Utilities":"ibFvH","./js/Presentational/Sidebar":"hqDOY","./js/Presentational/Leaflet":"6qSdK","./js/components/BusinessListing":"8PSrI"}],"iTorj":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react-dom/client":"lOjBx","react":"21dqq","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","./js/components/Utilities":"ibFvH","./js/Presentational/Sidebar":"hqDOY","./js/Presentational/Leaflet":"6qSdK"}],"iTorj":[function(require,module,exports) {
 "use strict";
 module.exports = require("1328a5335154ddc4");
 
@@ -27427,7 +27425,7 @@ function LoadingMesssage() {
         children: "Loading Chahtapreneurs..."
     }, void 0, false, {
         fileName: "src/js/components/Utilities.jsx",
-        lineNumber: 39,
+        lineNumber: 40,
         columnNumber: 5
     }, this);
 }
@@ -27516,7 +27514,8 @@ function Sidebar({ reduceMotion , setReduceMotion , isLoading , businessListings
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _searchFilters.SearchFilters), {
                 handleFilterChange: handleFilterChange,
-                selectedFilters: selectedFilters
+                selectedFilters: selectedFilters,
+                setSelectedFilters: setSelectedFilters
             }, void 0, false, {
                 fileName: "src/js/Presentational/Sidebar.jsx",
                 lineNumber: 32,
@@ -27524,7 +27523,7 @@ function Sidebar({ reduceMotion , setReduceMotion , isLoading , businessListings
             }, this),
             isLoading && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _utilities.LoadingMesssage), {}, void 0, false, {
                 fileName: "src/js/Presentational/Sidebar.jsx",
-                lineNumber: 36,
+                lineNumber: 37,
                 columnNumber: 21
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _businessListing.BusinessListings), {
@@ -27532,7 +27531,7 @@ function Sidebar({ reduceMotion , setReduceMotion , isLoading , businessListings
                 selectedFilters: selectedFilters
             }, void 0, false, {
                 fileName: "src/js/Presentational/Sidebar.jsx",
-                lineNumber: 37,
+                lineNumber: 38,
                 columnNumber: 7
             }, this)
         ]
@@ -27563,12 +27562,25 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "BusinessListings", ()=>BusinessListings);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _s = $RefreshSig$();
 function BusinessListings({ businessListings , selectedFilters  }) {
-    const listings = businessListings;
-    /** DOING: if listings in selectedFilters....
-   * blah blah blah
-   * return filteredlistings
-   */ return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
+    _s();
+    const [listings, setListings] = (0, _react.useState)(businessListings);
+    function filterListings() {
+        if (0 === selectedFilters.length) setListings(businessListings);
+        else {
+            const filteredListings = businessListings.filter((listing)=>selectedFilters.some((filter)=>listing.terms.has(filter)));
+            setListings(filteredListings);
+        }
+    }
+    (0, _react.useEffect)(()=>{
+        filterListings();
+    }, [
+        businessListings,
+        selectedFilters
+    ]);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
         className: "businesses",
         children: listings.map((listing)=>{
             const content = listing.content.slice(0, 141) + "...";
@@ -27578,26 +27590,30 @@ function BusinessListings({ businessListings , selectedFilters  }) {
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
                         className: "business__title",
-                        children: listing.title
+                        dangerouslySetInnerHTML: {
+                            __html: listing.title
+                        }
                     }, void 0, false, {
                         fileName: "src/js/components/BusinessListing.jsx",
-                        lineNumber: 22,
+                        lineNumber: 32,
                         columnNumber: 13
                     }, this),
                     listing.acf.address && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        class: "business__meta",
+                        className: "business__meta",
                         children: listing.acf.address
                     }, void 0, false, {
                         fileName: "src/js/components/BusinessListing.jsx",
-                        lineNumber: 24,
+                        lineNumber: 37,
                         columnNumber: 15
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "business__details",
-                        children: content
+                        dangerouslySetInnerHTML: {
+                            __html: content
+                        }
                     }, void 0, false, {
                         fileName: "src/js/components/BusinessListing.jsx",
-                        lineNumber: 26,
+                        lineNumber: 39,
                         columnNumber: 13
                     }, this),
                     listing.acf.remote === false ? "" : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -27605,22 +27621,23 @@ function BusinessListings({ businessListings , selectedFilters  }) {
                         children: "Online Only"
                     }, void 0, false, {
                         fileName: "src/js/components/BusinessListing.jsx",
-                        lineNumber: 30,
+                        lineNumber: 46,
                         columnNumber: 15
                     }, this)
                 ]
             }, listing.id, true, {
                 fileName: "src/js/components/BusinessListing.jsx",
-                lineNumber: 13,
+                lineNumber: 23,
                 columnNumber: 11
             }, this);
         })
     }, void 0, false, {
         fileName: "src/js/components/BusinessListing.jsx",
-        lineNumber: 9,
+        lineNumber: 18,
         columnNumber: 5
     }, this);
 }
+_s(BusinessListings, "tXjq1ThCIvxXfiMfXNVdm7auEx4=");
 _c = BusinessListings;
 var _c;
 $RefreshReg$(_c, "BusinessListings");
@@ -27630,7 +27647,7 @@ $RefreshReg$(_c, "BusinessListings");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"buz9x":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","react":"21dqq"}],"buz9x":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$ac21 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -27645,11 +27662,7 @@ var _react = require("react");
 var _s = $RefreshSig$();
 const filters = [
     {
-        name: "all",
-        displayName: "Show All"
-    },
-    {
-        name: "beauty",
+        name: "beauty/health",
         displayName: "Beauty/Health"
     },
     {
@@ -27657,7 +27670,7 @@ const filters = [
         displayName: "Construction"
     },
     {
-        name: "food",
+        name: "eat &amp; drink",
         displayName: "Eat & Drink"
     },
     {
@@ -27694,7 +27707,7 @@ function Filter({ name , displayName , checked , onChange  }) {
                 children: displayName
             }, void 0, false, {
                 fileName: "src/js/components/SearchFilters.jsx",
-                lineNumber: 51,
+                lineNumber: 47,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -27705,20 +27718,20 @@ function Filter({ name , displayName , checked , onChange  }) {
                 onChange: ()=>{}
             }, void 0, false, {
                 fileName: "src/js/components/SearchFilters.jsx",
-                lineNumber: 52,
+                lineNumber: 48,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/js/components/SearchFilters.jsx",
-        lineNumber: 47,
+        lineNumber: 43,
         columnNumber: 5
     }, this);
 }
 _c = Filter;
-function SearchFilters({ handleFilterChange , selectedFilters  }) {
+function SearchFilters({ handleFilterChange , selectedFilters , setSelectedFilters  }) {
     _s();
-    const [showFilters, setShowFilters] = (0, _react.useState)(true);
+    const [showFilters, setShowFilters] = (0, _react.useState)(false);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("aside", {
         className: "filters",
         children: [
@@ -27729,22 +27742,31 @@ function SearchFilters({ handleFilterChange , selectedFilters  }) {
                         children: "Filter Options"
                     }, void 0, false, {
                         fileName: "src/js/components/SearchFilters.jsx",
-                        lineNumber: 68,
+                        lineNumber: 69,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        className: "hide-filters",
-                        onClick: ()=>setShowFilters(!showFilters),
-                        children: showFilters ? "Hide Options" : "Show Options"
+                    selectedFilters.length > 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        className: "hide-filters--alt",
+                        onClick: ()=>setSelectedFilters([]),
+                        children: "Reset Filters"
                     }, void 0, false, {
                         fileName: "src/js/components/SearchFilters.jsx",
-                        lineNumber: 69,
+                        lineNumber: 71,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        className: showFilters ? "hide-filters" : "hide-filters--alt",
+                        onClick: ()=>setShowFilters(!showFilters),
+                        children: showFilters ? "Hide Filters" : "Show Filters"
+                    }, void 0, false, {
+                        fileName: "src/js/components/SearchFilters.jsx",
+                        lineNumber: 78,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/js/components/SearchFilters.jsx",
-                lineNumber: 67,
+                lineNumber: 68,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27758,23 +27780,23 @@ function SearchFilters({ handleFilterChange , selectedFilters  }) {
                         onChange: handleFilterChange
                     }, filter.name, false, {
                         fileName: "src/js/components/SearchFilters.jsx",
-                        lineNumber: 81,
+                        lineNumber: 90,
                         columnNumber: 15
                     }, this);
                 })
             }, void 0, false, {
                 fileName: "src/js/components/SearchFilters.jsx",
-                lineNumber: 76,
+                lineNumber: 85,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/js/components/SearchFilters.jsx",
-        lineNumber: 66,
+        lineNumber: 67,
         columnNumber: 5
     }, this);
 }
-_s(SearchFilters, "1kazwI3j5u6cuR+RNnnawInCWSY=");
+_s(SearchFilters, "oJ1PYJsWFrwlzYtlEiE9hrxrFU0=");
 _c1 = SearchFilters;
 var _c, _c1;
 $RefreshReg$(_c, "Filter");

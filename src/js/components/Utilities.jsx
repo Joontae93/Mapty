@@ -34,6 +34,7 @@ export function Logo() {
     </a>
   );
 }
+
 export function LoadingMesssage() {
   return (
     <div id="loading" className="show">

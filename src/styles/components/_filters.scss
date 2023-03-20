@@ -4,6 +4,7 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    padding-bottom: 1rem;
     border-bottom: 1px solid white;
   }
   &__container {
@@ -17,14 +18,27 @@
     }
   }
 }
-
-.hide-filters {
-  transition: all 0.3s ease;
+%hide-filters {
+  transition: all 0.2s ease;
   padding: 1rem;
+  cursor: pointer;
+  border: 1px solid lightgray;
+}
+.hide-filters {
+  @extend %hide-filters;
   &:hover {
     background-color: lightgray;
     color: black;
-    cursor: pointer;
+  }
+  &--alt {
+    @extend %hide-filters;
+    background-color: lightgray;
+    color: black;
+    &:hover {
+      color: lightgray;
+      background-color: transparent;
+      border-color: lightgray;
+    }
   }
 }
 .filter {

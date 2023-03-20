@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Logo,
   ReduceMotionToggle,
@@ -32,6 +32,7 @@ export function Sidebar({
       <SearchFilters
         handleFilterChange={handleFilterChange}
         selectedFilters={selectedFilters}
+        setSelectedFilters={setSelectedFilters}
       />
       {isLoading && <LoadingMesssage />}
       <BusinessListings
