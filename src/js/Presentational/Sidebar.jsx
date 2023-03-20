@@ -3,25 +3,34 @@ import {
   Logo,
   ReduceMotionToggle,
   LoadingMesssage,
-  getData,
 } from '../components/Utilities';
 import { BusinessListings } from '../components/BusinessListing';
-import { SearchFilters } from '../components/SearchFilters';
+import { SearchFilters } from './SearchFilters';
 
 export function Sidebar({
   reduceMotion,
   setReduceMotion,
   isLoading,
+  setIsLoading,
   businessListings,
+  atBottom,
+  setAtBottom,
 }) {
-  const [selectedFilters, setSelectedFilters] = useState([]);
-  function handleFilterChange(filterName) {
-    if (selectedFilters.includes(filterName)) {
-      setSelectedFilters(selectedFilters.filter(name => name !== filterName));
+  const [filters, setFilters] = useState({ categories: [], option: 'Both' });
+  function handleCategoryChange(filterName) {
+    console.log(filterName);
+    console.log(filters);
+    const { categories } = filters;
+    if (categories.includes(filterName)) {
+      setFilters(categories.filter(name => name !== filterName));
     } else {
-      setSelectedFilters([...selectedFilters, filterName]);
+      setFilters(prev => {
+        return { ...prev, categories: [...prev.categories, filterName] };
+      });
     }
   }
+
+  const [option, setOption] = useState('Both');
   return (
     <div className="sidebar">
       <Logo />
@@ -30,15 +39,23 @@ export function Sidebar({
         setReduceMotion={setReduceMotion}
       />
       <SearchFilters
-        handleFilterChange={handleFilterChange}
-        selectedFilters={selectedFilters}
-        setSelectedFilters={setSelectedFilters}
+        filters={filters}
+        setFilters={setFilters}
+        handleCategoryChange={handleCategoryChange}
+        option={option}
+        setOption={setOption}
       />
       {isLoading && <LoadingMesssage />}
-      <BusinessListings
-        businessListings={businessListings}
-        selectedFilters={selectedFilters}
-      />
     </div>
   );
 }
+
+/*<BusinessListings
+      option={option}
+      atBottom={atBottom}
+      setAtBottom={setAtBottom}
+      isLoading={isLoading}
+      setIsLoading={setIsLoading}
+      businessListings={businessListings}
+      filters={filters}
+    />*/

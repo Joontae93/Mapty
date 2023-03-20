@@ -28,6 +28,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [businessListings, setBusinessListings] = useState([]);
   const [pageQuery, setPageQuery] = useState(1);
+  const [atBottom, setAtBottom] = useState(false);
 
   useEffect(() => {
     getThePlaces(pageQuery)
@@ -53,13 +54,16 @@ function App() {
         setIsLoading(false);
       })
       .catch(error => console.error(error));
-  }, []);
+  }, [atBottom]);
   return (
     <>
       <Sidebar
+        atBottom={atBottom}
+        setAtBottom={setAtBottom}
         reduceMotion={reduceMotion}
         setReduceMotion={setReduceMotion}
         isLoading={isLoading}
+        setIsLoading={setIsLoading}
         businessListings={businessListings}
       />
       <Map />

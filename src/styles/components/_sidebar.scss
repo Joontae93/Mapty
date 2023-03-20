@@ -6,9 +6,10 @@
 .sidebar {
   flex-basis: 50rem;
   background-color: v.$color-dark--1;
-  padding: 3rem 5rem 4rem 5rem;
+  padding: 3rem 5rem 1rem 5rem;
   display: flex;
   flex-direction: column;
+  max-height: 100vh;
 }
 
 .logo {
@@ -24,11 +25,7 @@
 #loading {
   background-color: lightgrey;
   padding: 2rem;
-  visibility: hidden;
   color: black;
-  &.show {
-    visibility: visible;
-  }
 }
 
 .motion-toggle {

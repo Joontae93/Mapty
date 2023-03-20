@@ -1,21 +1,68 @@
-import { useState, useEffect } from 'react';
-export function BusinessListings({ businessListings, selectedFilters }) {
+import { useState, useEffect, useRef } from 'react';
+
+function locationOption(option, listing) {
+  const choice = option.toLowerCase();
+  if (choice === 'online-only') {
+    return listing.acf.remote != false;
+  } else if (choice === 'physical') {
+    return listing.acf.remote === false;
+  } else {
+    return true;
+  }
+}
+export function BusinessListings({
+  atBottom,
+  setAtBottom,
+  option,
+  businessListings,
+  isLoading,
+  setIsLoading,
+  filters,
+}) {
   const [listings, setListings] = useState(businessListings);
+  const ul = useRef();
   function filterListings() {
-    if (0 === selectedFilters.length) {
-      setListings(businessListings);
+    if (0 === filters.length) {
+      const filteredListings = businessListings.filter(listing =>
+        locationOption(option, listing)
+      );
+      setListings(filteredListings);
     } else {
       const filteredListings = businessListings.filter(listing =>
-        selectedFilters.some(filter => listing.terms.has(filter))
+        filters.some(
+          filter => listing.terms.has(filter) && locationOption(option, listing)
+        )
       );
       setListings(filteredListings);
     }
   }
   useEffect(() => {
     filterListings();
-  }, [businessListings, selectedFilters]);
+  }, [businessListings, filters, option]);
+
+  function handleScroll() {
+    const container = ul.current;
+    if (
+      container.scrollTop + container.clientHeight >=
+      container.scrollHeight
+    ) {
+      console.log('scrolled to bottom!', isLoading);
+      if (isLoading) return;
+      console.log(this);
+      container.removeEventListener('scroll', this);
+      setIsLoading(true);
+    }
+  }
+  useEffect(() => {
+    const container = ul.current;
+    container.addEventListener('scroll', handleScroll);
+    return () => {
+      if (isLoading) return;
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   return (
-    <ul className="businesses">
+    <ul className="businesses" ref={ul}>
       {listings.map(listing => {
         const content = listing.content.slice(0, 141) + '...';
 

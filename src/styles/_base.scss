@@ -27,5 +27,6 @@ a:visited {
 }
 
 main {
+  overscroll-behavior-y: none;
   display: flex;
 }

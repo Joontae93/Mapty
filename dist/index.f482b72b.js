@@ -2957,6 +2957,7 @@ function App() {
     const [isLoading, setIsLoading] = (0, _react.useState)(true);
     const [businessListings, setBusinessListings] = (0, _react.useState)([]);
     const [pageQuery, setPageQuery] = (0, _react.useState)(1);
+    const [atBottom, setAtBottom] = (0, _react.useState)(false);
     (0, _react.useEffect)(()=>{
         getThePlaces(pageQuery).then((response)=>{
             setBusinessListings(response.map((place)=>{
@@ -2977,33 +2978,38 @@ function App() {
             }));
             setIsLoading(false);
         }).catch((error)=>console.error(error));
-    }, []);
+    }, [
+        atBottom
+    ]);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _sidebar.Sidebar), {
+                atBottom: atBottom,
+                setAtBottom: setAtBottom,
                 reduceMotion: reduceMotion,
                 setReduceMotion: setReduceMotion,
                 isLoading: isLoading,
+                setIsLoading: setIsLoading,
                 businessListings: businessListings
             }, void 0, false, {
                 fileName: "src/App.jsx",
-                lineNumber: 59,
+                lineNumber: 60,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _leaflet.Map), {}, void 0, false, {
                 fileName: "src/App.jsx",
-                lineNumber: 65,
+                lineNumber: 69,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true);
 }
-_s(App, "JawghFwY0sSM3uzuYeV3Y0uGc7g=");
+_s(App, "fozCMyekcaj6b002neZmyMLoBXU=");
 _c = App;
 const root = (0, _client.createRoot)(document.getElementById("app"));
 root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(App, {}, void 0, false, {
     fileName: "src/App.jsx",
-    lineNumber: 70,
+    lineNumber: 74,
     columnNumber: 13
 }, undefined));
 var _c;
@@ -27421,12 +27427,11 @@ _c1 = Logo;
 function LoadingMesssage() {
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         id: "loading",
-        className: "show",
         children: "Loading Chahtapreneurs..."
     }, void 0, false, {
         fileName: "src/js/components/Utilities.jsx",
-        lineNumber: 40,
-        columnNumber: 5
+        lineNumber: 39,
+        columnNumber: 10
     }, this);
 }
 _c2 = LoadingMesssage;
@@ -27479,29 +27484,49 @@ $parcel$ReactRefreshHelpers$aa6c.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Sidebar", ()=>Sidebar);
+parcelHelpers.export(exports, "Sidebar", ()=>Sidebar) /*<BusinessListings
+      option={option}
+      atBottom={atBottom}
+      setAtBottom={setAtBottom}
+      isLoading={isLoading}
+      setIsLoading={setIsLoading}
+      businessListings={businessListings}
+      filters={filters}
+    />*/ ;
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _utilities = require("../components/Utilities");
 var _businessListing = require("../components/BusinessListing");
-var _searchFilters = require("../components/SearchFilters");
+var _searchFilters = require("./SearchFilters");
 var _s = $RefreshSig$();
-function Sidebar({ reduceMotion , setReduceMotion , isLoading , businessListings  }) {
+function Sidebar({ reduceMotion , setReduceMotion , isLoading , setIsLoading , businessListings , atBottom , setAtBottom  }) {
     _s();
-    const [selectedFilters, setSelectedFilters] = (0, _react.useState)([]);
-    function handleFilterChange(filterName) {
-        if (selectedFilters.includes(filterName)) setSelectedFilters(selectedFilters.filter((name)=>name !== filterName));
-        else setSelectedFilters([
-            ...selectedFilters,
-            filterName
-        ]);
+    const [filters, setFilters] = (0, _react.useState)({
+        categories: [],
+        option: "Both"
+    });
+    function handleCategoryChange(filterName) {
+        console.log(filterName);
+        console.log(filters);
+        const { categories  } = filters;
+        if (categories.includes(filterName)) setFilters(categories.filter((name)=>name !== filterName));
+        else setFilters((prev)=>{
+            return {
+                ...prev,
+                categories: [
+                    ...prev.categories,
+                    filterName
+                ]
+            };
+        });
     }
+    const [option, setOption] = (0, _react.useState)("Both");
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "sidebar",
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _utilities.Logo), {}, void 0, false, {
                 fileName: "src/js/Presentational/Sidebar.jsx",
-                lineNumber: 27,
+                lineNumber: 36,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _utilities.ReduceMotionToggle), {
@@ -27509,39 +27534,33 @@ function Sidebar({ reduceMotion , setReduceMotion , isLoading , businessListings
                 setReduceMotion: setReduceMotion
             }, void 0, false, {
                 fileName: "src/js/Presentational/Sidebar.jsx",
-                lineNumber: 28,
+                lineNumber: 37,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _searchFilters.SearchFilters), {
-                handleFilterChange: handleFilterChange,
-                selectedFilters: selectedFilters,
-                setSelectedFilters: setSelectedFilters
+                filters: filters,
+                setFilters: setFilters,
+                handleCategoryChange: handleCategoryChange,
+                option: option,
+                setOption: setOption
             }, void 0, false, {
                 fileName: "src/js/Presentational/Sidebar.jsx",
-                lineNumber: 32,
+                lineNumber: 41,
                 columnNumber: 7
             }, this),
             isLoading && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _utilities.LoadingMesssage), {}, void 0, false, {
                 fileName: "src/js/Presentational/Sidebar.jsx",
-                lineNumber: 37,
+                lineNumber: 48,
                 columnNumber: 21
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _businessListing.BusinessListings), {
-                businessListings: businessListings,
-                selectedFilters: selectedFilters
-            }, void 0, false, {
-                fileName: "src/js/Presentational/Sidebar.jsx",
-                lineNumber: 38,
-                columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/js/Presentational/Sidebar.jsx",
-        lineNumber: 26,
+        lineNumber: 35,
         columnNumber: 5
     }, this);
 }
-_s(Sidebar, "sQG2QTgdXHuWVVkfoTb3s/mqlB4=");
+_s(Sidebar, "kgSLXl5Evhqgom76MKM3oiTc8Ck=");
 _c = Sidebar;
 var _c;
 $RefreshReg$(_c, "Sidebar");
@@ -27551,7 +27570,7 @@ $RefreshReg$(_c, "Sidebar");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","../components/Utilities":"ibFvH","../components/BusinessListing":"8PSrI","../components/SearchFilters":"buz9x","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","react":"21dqq"}],"8PSrI":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","../components/Utilities":"ibFvH","../components/BusinessListing":"8PSrI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","react":"21dqq","./SearchFilters":"6f1w1"}],"8PSrI":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$270d = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -27564,13 +27583,22 @@ parcelHelpers.export(exports, "BusinessListings", ()=>BusinessListings);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _s = $RefreshSig$();
-function BusinessListings({ businessListings , selectedFilters  }) {
+function locationOption(option, listing) {
+    const choice = option.toLowerCase();
+    if (choice === "online-only") return listing.acf.remote != false;
+    else if (choice === "physical") return listing.acf.remote === false;
+    else return true;
+}
+function BusinessListings({ atBottom , setAtBottom , option , businessListings , isLoading , setIsLoading , filters  }) {
     _s();
     const [listings, setListings] = (0, _react.useState)(businessListings);
+    const ul = (0, _react.useRef)();
     function filterListings() {
-        if (0 === selectedFilters.length) setListings(businessListings);
-        else {
-            const filteredListings = businessListings.filter((listing)=>selectedFilters.some((filter)=>listing.terms.has(filter)));
+        if (0 === filters.length) {
+            const filteredListings = businessListings.filter((listing)=>locationOption(option, listing));
+            setListings(filteredListings);
+        } else {
+            const filteredListings = businessListings.filter((listing)=>filters.some((filter)=>listing.terms.has(filter) && locationOption(option, listing)));
             setListings(filteredListings);
         }
     }
@@ -27578,10 +27606,30 @@ function BusinessListings({ businessListings , selectedFilters  }) {
         filterListings();
     }, [
         businessListings,
-        selectedFilters
+        filters,
+        option
     ]);
+    function handleScroll() {
+        const container = ul.current;
+        if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
+            console.log("scrolled to bottom!", isLoading);
+            if (isLoading) return;
+            console.log(this);
+            container.removeEventListener("scroll", this);
+            setIsLoading(true);
+        }
+    }
+    (0, _react.useEffect)(()=>{
+        const container = ul.current;
+        container.addEventListener("scroll", handleScroll);
+        return ()=>{
+            if (isLoading) return;
+            container.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
         className: "businesses",
+        ref: ul,
         children: listings.map((listing)=>{
             const content = listing.content.slice(0, 141) + "...";
             return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -27595,7 +27643,7 @@ function BusinessListings({ businessListings , selectedFilters  }) {
                         }
                     }, void 0, false, {
                         fileName: "src/js/components/BusinessListing.jsx",
-                        lineNumber: 32,
+                        lineNumber: 79,
                         columnNumber: 13
                     }, this),
                     listing.acf.address && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -27603,7 +27651,7 @@ function BusinessListings({ businessListings , selectedFilters  }) {
                         children: listing.acf.address
                     }, void 0, false, {
                         fileName: "src/js/components/BusinessListing.jsx",
-                        lineNumber: 37,
+                        lineNumber: 84,
                         columnNumber: 15
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27613,7 +27661,7 @@ function BusinessListings({ businessListings , selectedFilters  }) {
                         }
                     }, void 0, false, {
                         fileName: "src/js/components/BusinessListing.jsx",
-                        lineNumber: 39,
+                        lineNumber: 86,
                         columnNumber: 13
                     }, this),
                     listing.acf.remote === false ? "" : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -27621,23 +27669,23 @@ function BusinessListings({ businessListings , selectedFilters  }) {
                         children: "Online Only"
                     }, void 0, false, {
                         fileName: "src/js/components/BusinessListing.jsx",
-                        lineNumber: 46,
+                        lineNumber: 93,
                         columnNumber: 15
                     }, this)
                 ]
             }, listing.id, true, {
                 fileName: "src/js/components/BusinessListing.jsx",
-                lineNumber: 23,
+                lineNumber: 70,
                 columnNumber: 11
             }, this);
         })
     }, void 0, false, {
         fileName: "src/js/components/BusinessListing.jsx",
-        lineNumber: 18,
+        lineNumber: 65,
         columnNumber: 5
     }, this);
 }
-_s(BusinessListings, "tXjq1ThCIvxXfiMfXNVdm7auEx4=");
+_s(BusinessListings, "TO2nc8qzTkurcCOQCy9hYqnk9Tk=");
 _c = BusinessListings;
 var _c;
 $RefreshReg$(_c, "BusinessListings");
@@ -27647,11 +27695,11 @@ $RefreshReg$(_c, "BusinessListings");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","react":"21dqq"}],"buz9x":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$ac21 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","react":"21dqq"}],"6f1w1":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$2111 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$ac21.prelude(module);
+$parcel$ReactRefreshHelpers$2111.prelude(module);
 
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -27659,8 +27707,98 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "SearchFilters", ()=>SearchFilters);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
+var _searchFilters = require("../components/_SearchFilters");
 var _s = $RefreshSig$();
-const filters = [
+function SearchFilters({ handleCategoryChange , option , setOption , filters , setFilters  }) {
+    _s();
+    const [showFilters, setShowFilters] = (0, _react.useState)(false);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("aside", {
+        className: "filters",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("header", {
+                className: "filters__header",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                        children: "Filters"
+                    }, void 0, false, {
+                        fileName: "src/js/Presentational/SearchFilters.jsx",
+                        lineNumber: 20,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _searchFilters.FilterControlsToggle), {
+                        filters: filters,
+                        setFilters: setFilters,
+                        showFilters: showFilters,
+                        setShowFilters: setShowFilters
+                    }, void 0, false, {
+                        fileName: "src/js/Presentational/SearchFilters.jsx",
+                        lineNumber: 21,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "src/js/Presentational/SearchFilters.jsx",
+                lineNumber: 19,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "filters__container",
+                children: [
+                    showFilters && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _searchFilters.FilterOptions), {
+                        option: option,
+                        setOption: setOption
+                    }, void 0, false, {
+                        fileName: "src/js/Presentational/SearchFilters.jsx",
+                        lineNumber: 29,
+                        columnNumber: 25
+                    }, this),
+                    showFilters && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _searchFilters.Categories), {
+                        filters: filters.categories,
+                        setFilters: setFilters,
+                        handleCategoryChange: handleCategoryChange
+                    }, void 0, false, {
+                        fileName: "src/js/Presentational/SearchFilters.jsx",
+                        lineNumber: 31,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "src/js/Presentational/SearchFilters.jsx",
+                lineNumber: 28,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "src/js/Presentational/SearchFilters.jsx",
+        lineNumber: 18,
+        columnNumber: 5
+    }, this);
+}
+_s(SearchFilters, "oJ1PYJsWFrwlzYtlEiE9hrxrFU0=");
+_c = SearchFilters;
+var _c;
+$RefreshReg$(_c, "SearchFilters");
+
+  $parcel$ReactRefreshHelpers$2111.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../components/_SearchFilters":"fYwYg","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"fYwYg":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$3c7b = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$3c7b.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Categories", ()=>Categories);
+parcelHelpers.export(exports, "Filter", ()=>Filter);
+parcelHelpers.export(exports, "FilterControlsToggle", ()=>FilterControlsToggle);
+parcelHelpers.export(exports, "FilterOptions", ()=>FilterOptions);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+const categories = [
     {
         name: "beauty/health",
         displayName: "Beauty/Health"
@@ -27694,20 +27832,52 @@ const filters = [
         displayName: "Stay"
     }
 ];
+function Categories({ filters , handleCategoryChange  }) {
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
+        className: "categories",
+        style: {
+            marginTop: "2rem"
+        },
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
+                children: "Categories"
+            }, void 0, false, {
+                fileName: "src/js/components/_SearchFilters.jsx",
+                lineNumber: 43,
+                columnNumber: 7
+            }, this),
+            categories.map((category)=>{
+                const isChecked = filters.includes(category.name);
+                return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Filter, {
+                    name: category.name,
+                    displayName: category.displayName,
+                    checked: isChecked,
+                    onChange: handleCategoryChange
+                }, category.name, false, {
+                    fileName: "src/js/components/_SearchFilters.jsx",
+                    lineNumber: 47,
+                    columnNumber: 11
+                }, this);
+            })
+        ]
+    }, void 0, true, {
+        fileName: "src/js/components/_SearchFilters.jsx",
+        lineNumber: 37,
+        columnNumber: 5
+    }, this);
+}
+_c = Categories;
 function Filter({ name , displayName , checked , onChange  }) {
-    function handleFilterClick() {
-        onChange(name);
-    }
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
         className: `filter ${checked ? "selected" : ""}`,
-        onClick: handleFilterClick,
+        onClick: ()=>onChange(name),
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
                 htmlFor: name,
                 children: displayName
             }, void 0, false, {
-                fileName: "src/js/components/SearchFilters.jsx",
-                lineNumber: 47,
+                fileName: "src/js/components/_SearchFilters.jsx",
+                lineNumber: 65,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -27717,97 +27887,111 @@ function Filter({ name , displayName , checked , onChange  }) {
                 checked: checked,
                 onChange: ()=>{}
             }, void 0, false, {
-                fileName: "src/js/components/SearchFilters.jsx",
-                lineNumber: 48,
+                fileName: "src/js/components/_SearchFilters.jsx",
+                lineNumber: 66,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
-        fileName: "src/js/components/SearchFilters.jsx",
-        lineNumber: 43,
+        fileName: "src/js/components/_SearchFilters.jsx",
+        lineNumber: 61,
         columnNumber: 5
     }, this);
 }
-_c = Filter;
-function SearchFilters({ handleFilterChange , selectedFilters , setSelectedFilters  }) {
-    _s();
-    const [showFilters, setShowFilters] = (0, _react.useState)(false);
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("aside", {
-        className: "filters",
+_c1 = Filter;
+function FilterControlsToggle({ showFilters , setShowFilters , filters , setFilters  }) {
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "filters__control",
         children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("header", {
-                className: "filters__header",
+            filters.length > 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                className: "hide-filters--alt",
+                onClick: ()=>setFilters({
+                        categories: [],
+                        option: "Both"
+                    }),
+                children: "Reset Filters"
+            }, void 0, false, {
+                fileName: "src/js/components/_SearchFilters.jsx",
+                lineNumber: 86,
+                columnNumber: 9
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                style: {
+                    marginLeft: 10
+                },
+                className: showFilters ? "hide-filters" : "hide-filters--alt",
+                onClick: ()=>setShowFilters(!showFilters),
+                children: showFilters ? "Hide Filters" : "Show Filters"
+            }, void 0, false, {
+                fileName: "src/js/components/_SearchFilters.jsx",
+                lineNumber: 93,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "src/js/components/_SearchFilters.jsx",
+        lineNumber: 84,
+        columnNumber: 5
+    }, this);
+}
+_c2 = FilterControlsToggle;
+function FilterOptions({ setOption , option  }) {
+    const choices = [
+        "Online-Only",
+        "Physical",
+        "Both"
+    ];
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
+        className: "filters__options",
+        onClick: ({ target  })=>setOption(target.closest("li").querySelector("input").value),
+        children: choices.map((choice)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                 children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                        children: "Filter Options"
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        value: choice,
+                        type: "radio",
+                        checked: option === choice,
+                        onChange: ()=>{},
+                        name: "choice"
                     }, void 0, false, {
-                        fileName: "src/js/components/SearchFilters.jsx",
-                        lineNumber: 69,
-                        columnNumber: 9
-                    }, this),
-                    selectedFilters.length > 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        className: "hide-filters--alt",
-                        onClick: ()=>setSelectedFilters([]),
-                        children: "Reset Filters"
-                    }, void 0, false, {
-                        fileName: "src/js/components/SearchFilters.jsx",
-                        lineNumber: 71,
+                        fileName: "src/js/components/_SearchFilters.jsx",
+                        lineNumber: 115,
                         columnNumber: 11
                     }, this),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        className: showFilters ? "hide-filters" : "hide-filters--alt",
-                        onClick: ()=>setShowFilters(!showFilters),
-                        children: showFilters ? "Hide Filters" : "Show Filters"
-                    }, void 0, false, {
-                        fileName: "src/js/components/SearchFilters.jsx",
-                        lineNumber: 78,
-                        columnNumber: 9
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                        children: [
+                            " ",
+                            ` ${choice}`
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/js/components/_SearchFilters.jsx",
+                        lineNumber: 122,
+                        columnNumber: 11
                     }, this)
                 ]
-            }, void 0, true, {
-                fileName: "src/js/components/SearchFilters.jsx",
-                lineNumber: 68,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "filters__container",
-                children: showFilters && filters.map((filter)=>{
-                    const isChecked = selectedFilters.includes(filter.name);
-                    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Filter, {
-                        name: filter.name,
-                        displayName: filter.displayName,
-                        checked: isChecked,
-                        onChange: handleFilterChange
-                    }, filter.name, false, {
-                        fileName: "src/js/components/SearchFilters.jsx",
-                        lineNumber: 90,
-                        columnNumber: 15
-                    }, this);
-                })
-            }, void 0, false, {
-                fileName: "src/js/components/SearchFilters.jsx",
-                lineNumber: 85,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "src/js/components/SearchFilters.jsx",
-        lineNumber: 67,
+            }, choice, true, {
+                fileName: "src/js/components/_SearchFilters.jsx",
+                lineNumber: 114,
+                columnNumber: 9
+            }, this))
+    }, void 0, false, {
+        fileName: "src/js/components/_SearchFilters.jsx",
+        lineNumber: 107,
         columnNumber: 5
     }, this);
 }
-_s(SearchFilters, "oJ1PYJsWFrwlzYtlEiE9hrxrFU0=");
-_c1 = SearchFilters;
-var _c, _c1;
-$RefreshReg$(_c, "Filter");
-$RefreshReg$(_c1, "SearchFilters");
+_c3 = FilterOptions;
+var _c, _c1, _c2, _c3;
+$RefreshReg$(_c, "Categories");
+$RefreshReg$(_c1, "Filter");
+$RefreshReg$(_c2, "FilterControlsToggle");
+$RefreshReg$(_c3, "FilterOptions");
 
-  $parcel$ReactRefreshHelpers$ac21.postlude(module);
+  $parcel$ReactRefreshHelpers$3c7b.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"6qSdK":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"6qSdK":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$1c2f = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;

@@ -34,6 +34,7 @@ a:link, a:visited {
 }
 
 main {
+  overscroll-behavior-y: none;
   display: flex;
 }
 
@@ -177,14 +178,25 @@ input:checked + .slider:before {
   display: flex;
 }
 
+.filters__options {
+  justify-content: space-evenly;
+  padding: 1rem;
+  list-style: none;
+  display: inline-flex;
+}
+
+.filters__options li, .filters__options input, .filters__options label {
+  cursor: pointer;
+}
+
+.filters__options label {
+  margin-left: 1rem;
+}
+
 .filters__container {
   flex-direction: column;
   align-items: stretch;
   display: flex;
-}
-
-.filters.hide .filters__container {
-  display: none;
 }
 
 .hide-filters--alt, .hide-filters {
@@ -209,6 +221,7 @@ input:checked + .slider:before {
   justify-content: space-between;
   align-items: center;
   margin-top: 5px;
+  margin-left: 1rem;
   padding-left: 5px;
   transition: all .3s;
   display: flex;
@@ -240,10 +253,11 @@ input:checked + .slider:before {
 }
 
 .sidebar {
+  max-height: 100vh;
   background-color: #2d3439;
   flex-direction: column;
   flex-basis: 50rem;
-  padding: 3rem 5rem 4rem;
+  padding: 3rem 5rem 1rem;
   display: flex;
 }
 
@@ -258,14 +272,9 @@ input:checked + .slider:before {
 }
 
 #loading {
-  visibility: hidden;
   color: #000;
   background-color: #d3d3d3;
   padding: 2rem;
-}
-
-#loading.show {
-  visibility: visible;
 }
 
 .motion-toggle {
@@ -281,6 +290,7 @@ input:checked + .slider:before {
 
 #map {
   min-height: 600px;
+  max-height: 100%;
   background-color: #aaa;
   flex: 1;
 }

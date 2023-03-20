@@ -36,9 +36,5 @@ export function Logo() {
 }
 
 export function LoadingMesssage() {
-  return (
-    <div id="loading" className="show">
-      Loading Chahtapreneurs...
-    </div>
-  );
+  return <div id="loading">Loading Chahtapreneurs...</div>;
 }
