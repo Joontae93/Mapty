@@ -27506,10 +27506,13 @@ function Sidebar({ reduceMotion , setReduceMotion , isLoading , setIsLoading , b
         option: "Both"
     });
     function handleCategoryChange(filterName) {
-        console.log(filterName);
-        console.log(filters);
         const { categories  } = filters;
-        if (categories.includes(filterName)) setFilters(categories.filter((name)=>name !== filterName));
+        if (categories.includes(filterName)) setFilters((prev)=>{
+            return {
+                ...prev,
+                categories: categories.filter((name)=>name !== filterName)
+            };
+        });
         else setFilters((prev)=>{
             return {
                 ...prev,
@@ -27526,7 +27529,7 @@ function Sidebar({ reduceMotion , setReduceMotion , isLoading , setIsLoading , b
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _utilities.Logo), {}, void 0, false, {
                 fileName: "src/js/Presentational/Sidebar.jsx",
-                lineNumber: 36,
+                lineNumber: 39,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _utilities.ReduceMotionToggle), {
@@ -27534,7 +27537,7 @@ function Sidebar({ reduceMotion , setReduceMotion , isLoading , setIsLoading , b
                 setReduceMotion: setReduceMotion
             }, void 0, false, {
                 fileName: "src/js/Presentational/Sidebar.jsx",
-                lineNumber: 37,
+                lineNumber: 40,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _searchFilters.SearchFilters), {
@@ -27545,18 +27548,18 @@ function Sidebar({ reduceMotion , setReduceMotion , isLoading , setIsLoading , b
                 setOption: setOption
             }, void 0, false, {
                 fileName: "src/js/Presentational/Sidebar.jsx",
-                lineNumber: 41,
+                lineNumber: 44,
                 columnNumber: 7
             }, this),
             isLoading && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _utilities.LoadingMesssage), {}, void 0, false, {
                 fileName: "src/js/Presentational/Sidebar.jsx",
-                lineNumber: 48,
+                lineNumber: 51,
                 columnNumber: 21
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/js/Presentational/Sidebar.jsx",
-        lineNumber: 35,
+        lineNumber: 38,
         columnNumber: 5
     }, this);
 }
@@ -27847,6 +27850,7 @@ function Categories({ filters , handleCategoryChange  }) {
                 columnNumber: 7
             }, this),
             categories.map((category)=>{
+                console.log(Array.isArray(filters));
                 const isChecked = filters.includes(category.name);
                 return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Filter, {
                     name: category.name,
@@ -27855,7 +27859,7 @@ function Categories({ filters , handleCategoryChange  }) {
                     onChange: handleCategoryChange
                 }, category.name, false, {
                     fileName: "src/js/components/_SearchFilters.jsx",
-                    lineNumber: 47,
+                    lineNumber: 48,
                     columnNumber: 11
                 }, this);
             })
@@ -27877,7 +27881,7 @@ function Filter({ name , displayName , checked , onChange  }) {
                 children: displayName
             }, void 0, false, {
                 fileName: "src/js/components/_SearchFilters.jsx",
-                lineNumber: 65,
+                lineNumber: 66,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -27888,13 +27892,13 @@ function Filter({ name , displayName , checked , onChange  }) {
                 onChange: ()=>{}
             }, void 0, false, {
                 fileName: "src/js/components/_SearchFilters.jsx",
-                lineNumber: 66,
+                lineNumber: 67,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/js/components/_SearchFilters.jsx",
-        lineNumber: 61,
+        lineNumber: 62,
         columnNumber: 5
     }, this);
 }
@@ -27912,7 +27916,7 @@ function FilterControlsToggle({ showFilters , setShowFilters , filters , setFilt
                 children: "Reset Filters"
             }, void 0, false, {
                 fileName: "src/js/components/_SearchFilters.jsx",
-                lineNumber: 86,
+                lineNumber: 87,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -27924,13 +27928,13 @@ function FilterControlsToggle({ showFilters , setShowFilters , filters , setFilt
                 children: showFilters ? "Hide Filters" : "Show Filters"
             }, void 0, false, {
                 fileName: "src/js/components/_SearchFilters.jsx",
-                lineNumber: 93,
+                lineNumber: 94,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/js/components/_SearchFilters.jsx",
-        lineNumber: 84,
+        lineNumber: 85,
         columnNumber: 5
     }, this);
 }
@@ -27954,7 +27958,7 @@ function FilterOptions({ setOption , option  }) {
                         name: "choice"
                     }, void 0, false, {
                         fileName: "src/js/components/_SearchFilters.jsx",
-                        lineNumber: 115,
+                        lineNumber: 116,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -27964,18 +27968,18 @@ function FilterOptions({ setOption , option  }) {
                         ]
                     }, void 0, true, {
                         fileName: "src/js/components/_SearchFilters.jsx",
-                        lineNumber: 122,
+                        lineNumber: 123,
                         columnNumber: 11
                     }, this)
                 ]
             }, choice, true, {
                 fileName: "src/js/components/_SearchFilters.jsx",
-                lineNumber: 114,
+                lineNumber: 115,
                 columnNumber: 9
             }, this))
     }, void 0, false, {
         fileName: "src/js/components/_SearchFilters.jsx",
-        lineNumber: 107,
+        lineNumber: 108,
         columnNumber: 5
     }, this);
 }

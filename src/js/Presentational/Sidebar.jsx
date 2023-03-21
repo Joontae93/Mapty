@@ -18,11 +18,14 @@ export function Sidebar({
 }) {
   const [filters, setFilters] = useState({ categories: [], option: 'Both' });
   function handleCategoryChange(filterName) {
-    console.log(filterName);
-    console.log(filters);
     const { categories } = filters;
     if (categories.includes(filterName)) {
-      setFilters(categories.filter(name => name !== filterName));
+      setFilters(prev => {
+        return {
+          ...prev,
+          categories: categories.filter(name => name !== filterName),
+        };
+      });
     } else {
       setFilters(prev => {
         return { ...prev, categories: [...prev.categories, filterName] };

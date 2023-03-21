@@ -42,6 +42,7 @@ export function Categories({ filters, handleCategoryChange }) {
     >
       <h3>Categories</h3>
       {categories.map(category => {
+        console.log(Array.isArray(filters));
         const isChecked = filters.includes(category.name);
         return (
           <Filter
