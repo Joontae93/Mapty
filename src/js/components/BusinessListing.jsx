@@ -22,14 +22,14 @@ export function BusinessListings({
   const [listings, setListings] = useState(businessListings);
   const ul = useRef();
   function filterListings() {
-    if (0 === filters.length) {
+    if (0 === filters.categories.length) {
       const filteredListings = businessListings.filter(listing =>
         locationOption(option, listing)
       );
       setListings(filteredListings);
     } else {
       const filteredListings = businessListings.filter(listing =>
-        filters.some(
+        filters.categories.some(
           filter => listing.terms.has(filter) && locationOption(option, listing)
         )
       );
@@ -48,19 +48,18 @@ export function BusinessListings({
     ) {
       console.log('scrolled to bottom!', isLoading);
       if (isLoading) return;
-      console.log(this);
       container.removeEventListener('scroll', this);
       setIsLoading(true);
     }
   }
-  useEffect(() => {
-    const container = ul.current;
-    container.addEventListener('scroll', handleScroll);
-    return () => {
-      if (isLoading) return;
-      container.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const container = ul.current;
+  //   container.addEventListener('scroll', handleScroll);
+  //   return () => {
+  //     if (isLoading) return;
+  //     container.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
   return (
     <ul className="businesses" ref={ul}>
       {listings.map(listing => {

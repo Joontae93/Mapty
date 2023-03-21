@@ -54,7 +54,7 @@ function App() {
         setIsLoading(false);
       })
       .catch(error => console.error(error));
-  }, [atBottom]);
+  }, []);
   return (
     <>
       <Sidebar

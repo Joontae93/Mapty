@@ -2978,9 +2978,7 @@ function App() {
             }));
             setIsLoading(false);
         }).catch((error)=>console.error(error));
-    }, [
-        atBottom
-    ]);
+    }, []);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _sidebar.Sidebar), {
@@ -27484,15 +27482,7 @@ $parcel$ReactRefreshHelpers$aa6c.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Sidebar", ()=>Sidebar) /*<BusinessListings
-      option={option}
-      atBottom={atBottom}
-      setAtBottom={setAtBottom}
-      isLoading={isLoading}
-      setIsLoading={setIsLoading}
-      businessListings={businessListings}
-      filters={filters}
-    />*/ ;
+parcelHelpers.export(exports, "Sidebar", ()=>Sidebar);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _utilities = require("../components/Utilities");
@@ -27555,6 +27545,19 @@ function Sidebar({ reduceMotion , setReduceMotion , isLoading , setIsLoading , b
                 fileName: "src/js/Presentational/Sidebar.jsx",
                 lineNumber: 51,
                 columnNumber: 21
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _businessListing.BusinessListings), {
+                option: option,
+                atBottom: atBottom,
+                setAtBottom: setAtBottom,
+                isLoading: isLoading,
+                setIsLoading: setIsLoading,
+                businessListings: businessListings,
+                filters: filters
+            }, void 0, false, {
+                fileName: "src/js/Presentational/Sidebar.jsx",
+                lineNumber: 52,
+                columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
@@ -27597,11 +27600,11 @@ function BusinessListings({ atBottom , setAtBottom , option , businessListings ,
     const [listings, setListings] = (0, _react.useState)(businessListings);
     const ul = (0, _react.useRef)();
     function filterListings() {
-        if (0 === filters.length) {
+        if (0 === filters.categories.length) {
             const filteredListings = businessListings.filter((listing)=>locationOption(option, listing));
             setListings(filteredListings);
         } else {
-            const filteredListings = businessListings.filter((listing)=>filters.some((filter)=>listing.terms.has(filter) && locationOption(option, listing)));
+            const filteredListings = businessListings.filter((listing)=>filters.categories.some((filter)=>listing.terms.has(filter) && locationOption(option, listing)));
             setListings(filteredListings);
         }
     }
@@ -27617,19 +27620,18 @@ function BusinessListings({ atBottom , setAtBottom , option , businessListings ,
         if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
             console.log("scrolled to bottom!", isLoading);
             if (isLoading) return;
-            console.log(this);
             container.removeEventListener("scroll", this);
             setIsLoading(true);
         }
     }
-    (0, _react.useEffect)(()=>{
-        const container = ul.current;
-        container.addEventListener("scroll", handleScroll);
-        return ()=>{
-            if (isLoading) return;
-            container.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
+    // useEffect(() => {
+    //   const container = ul.current;
+    //   container.addEventListener('scroll', handleScroll);
+    //   return () => {
+    //     if (isLoading) return;
+    //     container.removeEventListener('scroll', handleScroll);
+    //   };
+    // }, []);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
         className: "businesses",
         ref: ul,
@@ -27646,7 +27648,7 @@ function BusinessListings({ atBottom , setAtBottom , option , businessListings ,
                         }
                     }, void 0, false, {
                         fileName: "src/js/components/BusinessListing.jsx",
-                        lineNumber: 79,
+                        lineNumber: 78,
                         columnNumber: 13
                     }, this),
                     listing.acf.address && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -27654,7 +27656,7 @@ function BusinessListings({ atBottom , setAtBottom , option , businessListings ,
                         children: listing.acf.address
                     }, void 0, false, {
                         fileName: "src/js/components/BusinessListing.jsx",
-                        lineNumber: 84,
+                        lineNumber: 83,
                         columnNumber: 15
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27664,7 +27666,7 @@ function BusinessListings({ atBottom , setAtBottom , option , businessListings ,
                         }
                     }, void 0, false, {
                         fileName: "src/js/components/BusinessListing.jsx",
-                        lineNumber: 86,
+                        lineNumber: 85,
                         columnNumber: 13
                     }, this),
                     listing.acf.remote === false ? "" : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -27672,23 +27674,23 @@ function BusinessListings({ atBottom , setAtBottom , option , businessListings ,
                         children: "Online Only"
                     }, void 0, false, {
                         fileName: "src/js/components/BusinessListing.jsx",
-                        lineNumber: 93,
+                        lineNumber: 92,
                         columnNumber: 15
                     }, this)
                 ]
             }, listing.id, true, {
                 fileName: "src/js/components/BusinessListing.jsx",
-                lineNumber: 70,
+                lineNumber: 69,
                 columnNumber: 11
             }, this);
         })
     }, void 0, false, {
         fileName: "src/js/components/BusinessListing.jsx",
-        lineNumber: 65,
+        lineNumber: 64,
         columnNumber: 5
     }, this);
 }
-_s(BusinessListings, "TO2nc8qzTkurcCOQCy9hYqnk9Tk=");
+_s(BusinessListings, "K7qwKtF+R/w7iIrnXDEg7ZpUOpc=");
 _c = BusinessListings;
 var _c;
 $RefreshReg$(_c, "BusinessListings");
@@ -27850,7 +27852,6 @@ function Categories({ filters , handleCategoryChange  }) {
                 columnNumber: 7
             }, this),
             categories.map((category)=>{
-                console.log(Array.isArray(filters));
                 const isChecked = filters.includes(category.name);
                 return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Filter, {
                     name: category.name,
@@ -27859,7 +27860,7 @@ function Categories({ filters , handleCategoryChange  }) {
                     onChange: handleCategoryChange
                 }, category.name, false, {
                     fileName: "src/js/components/_SearchFilters.jsx",
-                    lineNumber: 48,
+                    lineNumber: 47,
                     columnNumber: 11
                 }, this);
             })
@@ -27881,7 +27882,7 @@ function Filter({ name , displayName , checked , onChange  }) {
                 children: displayName
             }, void 0, false, {
                 fileName: "src/js/components/_SearchFilters.jsx",
-                lineNumber: 66,
+                lineNumber: 65,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -27892,13 +27893,13 @@ function Filter({ name , displayName , checked , onChange  }) {
                 onChange: ()=>{}
             }, void 0, false, {
                 fileName: "src/js/components/_SearchFilters.jsx",
-                lineNumber: 67,
+                lineNumber: 66,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/js/components/_SearchFilters.jsx",
-        lineNumber: 62,
+        lineNumber: 61,
         columnNumber: 5
     }, this);
 }
@@ -27907,7 +27908,7 @@ function FilterControlsToggle({ showFilters , setShowFilters , filters , setFilt
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "filters__control",
         children: [
-            filters.length > 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+            filters.categories.length > 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                 className: "hide-filters--alt",
                 onClick: ()=>setFilters({
                         categories: [],
@@ -27916,7 +27917,7 @@ function FilterControlsToggle({ showFilters , setShowFilters , filters , setFilt
                 children: "Reset Filters"
             }, void 0, false, {
                 fileName: "src/js/components/_SearchFilters.jsx",
-                lineNumber: 87,
+                lineNumber: 86,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -27928,13 +27929,13 @@ function FilterControlsToggle({ showFilters , setShowFilters , filters , setFilt
                 children: showFilters ? "Hide Filters" : "Show Filters"
             }, void 0, false, {
                 fileName: "src/js/components/_SearchFilters.jsx",
-                lineNumber: 94,
+                lineNumber: 93,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/js/components/_SearchFilters.jsx",
-        lineNumber: 85,
+        lineNumber: 84,
         columnNumber: 5
     }, this);
 }
@@ -27958,7 +27959,7 @@ function FilterOptions({ setOption , option  }) {
                         name: "choice"
                     }, void 0, false, {
                         fileName: "src/js/components/_SearchFilters.jsx",
-                        lineNumber: 116,
+                        lineNumber: 115,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -27968,18 +27969,18 @@ function FilterOptions({ setOption , option  }) {
                         ]
                     }, void 0, true, {
                         fileName: "src/js/components/_SearchFilters.jsx",
-                        lineNumber: 123,
+                        lineNumber: 122,
                         columnNumber: 11
                     }, this)
                 ]
             }, choice, true, {
                 fileName: "src/js/components/_SearchFilters.jsx",
-                lineNumber: 115,
+                lineNumber: 114,
                 columnNumber: 9
             }, this))
     }, void 0, false, {
         fileName: "src/js/components/_SearchFilters.jsx",
-        lineNumber: 108,
+        lineNumber: 107,
         columnNumber: 5
     }, this);
 }

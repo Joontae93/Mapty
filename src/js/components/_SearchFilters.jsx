@@ -42,7 +42,6 @@ export function Categories({ filters, handleCategoryChange }) {
     >
       <h3>Categories</h3>
       {categories.map(category => {
-        console.log(Array.isArray(filters));
         const isChecked = filters.includes(category.name);
         return (
           <Filter
@@ -83,7 +82,7 @@ export function FilterControlsToggle({
 }) {
   return (
     <div className="filters__control">
-      {filters.length > 0 && (
+      {filters.categories.length > 0 && (
         <span
           className="hide-filters--alt"
           onClick={() => setFilters({ categories: [], option: 'Both' })}

@@ -49,16 +49,15 @@ export function Sidebar({
         setOption={setOption}
       />
       {isLoading && <LoadingMesssage />}
+      <BusinessListings
+        option={option}
+        atBottom={atBottom}
+        setAtBottom={setAtBottom}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        businessListings={businessListings}
+        filters={filters}
+      />
     </div>
   );
 }
-
-/*<BusinessListings
-      option={option}
-      atBottom={atBottom}
-      setAtBottom={setAtBottom}
-      isLoading={isLoading}
-      setIsLoading={setIsLoading}
-      businessListings={businessListings}
-      filters={filters}
-    />*/
